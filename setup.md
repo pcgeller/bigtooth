@@ -77,7 +77,34 @@ Get blue_hydra hostcode.
 sudo git clone https://github.com/pwnieexpress/blue_hydra
 ```
 
+##Your Bluetooth device
+Make sure it's running.  Check first.
+modprobe -v btusb
+```shell
+service --status-all
+sudo service bluetooth start
+sudo apt-get install bluez-dev bluez-tools
+```
+List bluetooth devices:
+bt-device -l
+hcitool dev
+sudo /etc/init.d/bluetooth start
+
+
 ####RUN!
 ```shell
 ./bin/blue_hydra
 ```
+
+##Troubleshooting
+If you get an error similar to :
+```shell
+Unable to read the mac address from hci0
+```
+then your system can't find your bluetooth device.  Some helpful commands:
+
+**modprobe btusb**: ensure the btusb drive kernel module is loaded.
+**lsusb**: list all connected usb devices.  
+**hciconfig**: change the status of the bluetooth device
+
+be sure to check help with something similar to -h or --help.
