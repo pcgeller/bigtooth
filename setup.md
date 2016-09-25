@@ -64,6 +64,8 @@ sudo gem install rake -v '11.2.2' --no-ri --no-rdoc
 sudo gem install addressable -v '2.4.0'--no-ri --no-rdoc
 sudo gem install coderay -v '1.1.1' --no-ri --no-rdoc
 sudo gem install do_sqlite3 -v '0.10.17' --no-ri --no-rdoc
+sudo gem install dm-sqlite-adapter -v '1.2.0' --no-ri --no-rdoc
+
 bundle install
 ```
 
@@ -72,10 +74,14 @@ Need to clone the code from github repos.
 ```shell
 sudo apt-get install git
 ```
+
 Get blue_hydra hostcode.
 ```
 sudo git clone https://github.com/pwnieexpress/blue_hydra
+cd ./blue_hydra
+bundle install
 ```
+Interesting feature of Ruby.  Ruby packages install into a project folder.
 
 ##Your Bluetooth device
 Make sure it's running.  Check first.
@@ -86,11 +92,11 @@ sudo service bluetooth start
 sudo apt-get install bluez-dev bluez-tools
 ```
 List bluetooth devices:
-bt-device -l
 hcitool dev
 sudo /etc/init.d/bluetooth start
+/etc/init.d/bluetooth status
 
-
+https://learn.adafruit.com/install-bluez-on-the-raspberry-pi/installation
 ####RUN!
 ```shell
 ./bin/blue_hydra
@@ -108,3 +114,19 @@ then your system can't find your bluetooth device.  Some helpful commands:
 **hciconfig**: change the status of the bluetooth device
 
 be sure to check help with something similar to -h or --help.
+
+#####ARGH
+
+Bluez5 (installed from packmans on Debian) is packaged differently than previous versions.  blue_hydra only works with bluez4
+
+Install bluez4
+```shell
+wget http://www.kernel.org/pub/linux/bluetooth/bluez-4.101.tar.xz
+tar xvf bluez-4.101.tar.xz
+cd bluez-4.101
+sudo apt-get update
+sudo apt-get install -y libusb-dev libdbus-1-dev libglib2.0-dev libudev-dev libical-dev libreadline-dev
+./configure
+make
+sudo make install
+```
