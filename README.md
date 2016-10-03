@@ -9,4 +9,3 @@ The project consists of a Raspberry Pi 3 loaded with blue_hydra.  It uses a SENA
 an Ubertooth dongle (not required), and the scripts in this repository.  The scripts convert the blue_hydra sqlite3 output into
 a PostgreSQL db.  They then perform analysis on the db to determine if a device has been seen before.  It does this by creating a python
 dictionary that stores the device observation timestamps.
-
