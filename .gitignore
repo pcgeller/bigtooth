@@ -6,4 +6,6 @@ logs
 *.works
 blue_hydra.db
 bigtooth.pg
+__pycache__
+
 
