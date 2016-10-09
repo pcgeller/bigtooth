@@ -1,0 +1,9 @@
+.gitignore
+blue_hydra
+setup.md
+db
+logs
+*.works
+blue_hydra.db
+bigtooth.pg
+

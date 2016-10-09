@@ -1,17 +1,11 @@
-##BigTooth
+# bigtooth
 
-We are surrounded by a world that we can't see: wifi, radio, cellular, BlueTooth, and many 
-other signals are carrying data right through us. BigTooth seeks to tap into the unseen 
-world of BlueTooth.  
+bigtooth is a project that taps into the unseen world around us.  Bluetooth signals are only one of the many signal types that are 
+(almost) constantly permiating the space around us.  This project takes a small slice of that space - 20 days of data collected over the
+same geographic route (a road) during roughly the same time period.  The goal is to see how often the same unique individuals are seen 
+along the route (and possibly how long they travel together).  
 
-This project scans for BlueTooth signals on a Raspberry Pi.  After collecting the signals from 
-several different locations (commute, commerical stores, public transit) tests will be run to 
-determine whether or not the types of BlueTooth devices seen nearby can be used to identify 
-the location.  
-
-Right now the code consists of getting Blue Hydra set-up.  After this is accomplished the same 
-environment will be set-up on a Raspberry Pi to enable mobile signal collection.  Then, some signals
-from various locations mentioned before will be collected.  After a large enough data set is collected
-machine learning algorithms from Python's sci-kit will be used for the location classification.
-
-
+The project consists of a Raspberry Pi 3 loaded with blue_hydra.  It uses a SENA UD100 as the bluetooth adapter, the rpi3 onboard wifi,
+an Ubertooth dongle (not required), and the scripts in this repository.  The scripts convert the blue_hydra sqlite3 output into
+a PostgreSQL db.  They then perform analysis on the db to determine if a device has been seen before.  It does this by creating a python
+dictionary that stores the device observation timestamps.

@@ -1,0 +1,4 @@
+E, [2016-09-28T13:18:15.502058 #1645] ERROR -- : Unknown command - "leinfo"
+E, [2016-09-28T13:23:38.883793 #1645] ERROR -- : Error with info command... {:command=>:leinfo, :address=>"5A:8D:29:CF:AB:B1"}
+E, [2016-09-28T13:23:38.983758 #1645] ERROR -- : Unknown command - "leinfo"
+
