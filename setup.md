@@ -117,7 +117,39 @@ be sure to check help with something similar to -h or --help.
 
 #####ARGH
 
-Bluez5 (installed from packmans on Debian) is packaged differently than previous versions.  blue_hydra only works with bluez4
+Bluez5 (installed from pacman on Debian) is packaged differently than previous versions - bluez-utils is no longer a seperate package.  It's rolled up with the bluez package.  Blue_hydra can't detect this and looks like bluez4 is a requirement.  Blue_hydra only works with bluez4.  Trying to force install of bluez version 4 on debian jessie (rpi3).  
+
+```shell
+sudo nano /etc/apt/sources.list
+```
+Comment out all lines.  Add:
+```shell
+deb http://ftp.us.debian.org/debian wheezy main contrib non-free
+sudo apt-get update
+```
+Ran into problems with encryption certs.  Thanks for the service MIT.
+```shell
+gpg --keyserver pgpkeys.mit.edu --recv-key 8B48AD6246925553 7638D0442B90D010 6FB2A1C265FFB764
+gpg -a --export 8B48AD6246925553 | sudo apt-key add -
+gpg -a --export 7638D0442B90D010 | sudo apt-key add -
+gpg -a --export 6FB2A1C265FFB764 | sudo apt-key add -
+sudo apt-get update
+```
+
+Just use the older package.
+```shell
+apt-cache showpkg bluez
+sudo apt-get install bluez='4.99-2'
+sudo apt-mark hold bluez
+sudo apt-get install bluetooth='4.99-2'
+sudo apt-mark hold bluetooth
+sudo apt-get install bluez-utils='4.99-2'
+sudo apt-mark hold bluez-utils
+sudo apt-get install bluez-cups='4.99-2'
+sudo apt-mark hold bluez-cups
+```
+
+###Alternative fix - use an older version of debian - wheezy
 
 Install bluez4
 ```shell
