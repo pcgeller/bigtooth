@@ -1,11 +1,12 @@
 .gitignore
 blue_hydra
 setup.md
-db
+dbs
 logs
 *.works
 blue_hydra.db
 bigtooth.pg
 __pycache__
+rssi
 
 
