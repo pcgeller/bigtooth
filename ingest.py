@@ -5,6 +5,14 @@ from os import listdir
 from os.path import isfile, join
 
 DBPATH = './bigtooth/dbs'
+DATAPATHS = ['dbs','logs']
+def fetchdbs(remote = 'pi@192.168.1.186', \
+REMOTE = '/home/pi/bigtooth/', \
+LOCAL = '/home/pcgeller/bigtooth/',\
+DATAPATHS = DATAPATHS):
+    for PATH in DATAPATHS:
+        call(['scp', '-r', remote + ':' + join(REMOTE,PATH), LOCAL ])
+
 
 def joindbs(path=DBPATH, header = False):
     DBPATH = './bigtooth/dbs'
@@ -15,7 +23,7 @@ def joindbs(path=DBPATH, header = False):
         c.execute('SELECT id, uuid, name, status, address, uap_lap, vendor,\
         appearance, company, company_type, lmp_version, manufacturer, firmware,\
         ibeacon_range, created_at, updated_at, last_seen from blue_hydra_devices;')
-        with open(db + '.dump','w') as f:
+        with open(db + '.csv','w') as f:
             writer = csv.writer(f)
             if header == True:
                 writer.writerow(['id','uuid','name','status','address','uap_lap',
