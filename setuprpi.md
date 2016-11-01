@@ -1,5 +1,5 @@
 ##Set up the RPi as a WAP.
-
+This is very incomplete.  The rPi works as a wireless access point (WAP) but I didn't document the proces.
 Make sure AP is listed as a a supported interface mode.
 ```shell
 iw list

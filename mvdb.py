@@ -2,6 +2,8 @@ from subprocess import call
 import os.path
 from time import strftime
 
+#Script to move the blue hydra database and logs each time the rPi boots.
+
 PATH = '/home/pcgeller/workspace/bigtooth/'
 
 files = {'db':'blue_hydra.db',
