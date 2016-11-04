@@ -3,9 +3,11 @@ import csv
 from subprocess import call
 from os import listdir
 from os.path import isfile, join
+import pandas as pd
 
-DBPATH = './bigtooth/dbs'
+DBPATH = '/home/pcgeller/bigtooth/dbs'
 DATAPATHS = ['dbs','logs']
+PROJECT = '/home/pcgeller/bigtooth'
 def fetchdbs(remote = 'pi@192.168.1.186', \
 REMOTE = '/home/pi/bigtooth/', \
 LOCAL = '/home/pcgeller/bigtooth/',\
@@ -13,30 +15,38 @@ DATAPATHS = DATAPATHS):
     for PATH in DATAPATHS:
         call(['scp', '-r', remote + ':' + join(REMOTE,PATH), LOCAL ])
 
+header = ['id','uuid','name','status','address','uap_lap',\
+'vendor','appearance','company', 'company_type','lmp_version','manufacturer',\
+'firmware','ibeacon_range','created_at','updated_at','last_seen']
+dbs = [db for db in listdir(DBPATH) if isfile(join(DBPATH, db))]
 
-def joindbs(path=DBPATH, header = False):
-    DBPATH = './bigtooth/dbs'
+def dbstocsv(path=DBPATH, header = False, mkfiles = False):
+    #DBPATH = './bigtooth/dbs'
     dbs = [db for db in listdir(DBPATH) if isfile(join(DBPATH, db))]
+    completelist = []
     for db in dbs:
-        conn = sqlite3.connect(db)
+        print(db)
+        conn = sqlite3.connect(join(DBPATH, db))
         c = conn.cursor()
         c.execute('SELECT id, uuid, name, status, address, uap_lap, vendor,\
         appearance, company, company_type, lmp_version, manufacturer, firmware,\
         ibeacon_range, created_at, updated_at, last_seen from blue_hydra_devices;')
-        with open(db + '.csv','w') as f:
-            writer = csv.writer(f)
-            if header == True:
-                writer.writerow(['id','uuid','name','status','address','uap_lap',
-                'vendor','appearance','company','company','company_type','lmp_version','manufacturer'\
-                'firmware','ibeacon_range','created_at','updated_at','last_seen'])
-            writer.writerows(c)
+        completelist.extend(c.fetchall())
+        print(len(completelist))
+        if mkfiles == True:
+            savepath = join(PROJECT, 'csv', db + '.csv')
+            with open(savepath, 'w') as f:
+                writer = csv.writer(f)
+                if header == True:
+                    writer.writerow(['id','uuid','name','status','address','uap_lap',\
+                    'vendor','appearance','company','company','company_type','lmp_version','manufacturer',\
+                    'firmware','ibeacon_range','created_at','updated_at','last_seen'])
+                writer.writerows(c)
         c.close()
         conn.close()
-
-
-
-
+    return(completelist)
 #### YAR HERE BE sqlite3 commands
+"""
 .headers on
 .mode csv
 .output data.csv
@@ -58,3 +68,6 @@ ibeacon_range,
 created_at,
 updated_at,
 last_seen from blue_hydra_devices;
+"""
+#df = pd.read_csv('blue_hydra.db.2016-10-12_H08M10.csv', names=
+ #header)
