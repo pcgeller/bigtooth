@@ -9,9 +9,9 @@ DBPATH = '/home/pcgeller/bigtooth/dbs'
 DATAPATHS = ['dbs','logs']
 PROJECT = '/home/pcgeller/bigtooth'
 def fetchdbs(remote = 'pi@192.168.1.186', \
-REMOTE = '/home/pi/bigtooth/', \
-LOCAL = '/home/pcgeller/bigtooth/',\
-DATAPATHS = DATAPATHS):
+        REMOTE = '/home/pi/bigtooth/', \
+        LOCAL = '/home/pcgeller/bigtooth/',\
+        DATAPATHS = DATAPATHS):
     for PATH in DATAPATHS:
         call(['scp', '-r', remote + ':' + join(REMOTE,PATH), LOCAL ])
 
@@ -46,7 +46,7 @@ def dbstocsv(path=DBPATH, header = False, mkfiles = False):
         conn.close()
     return(completelist)
 #### YAR HERE BE sqlite3 commands
-"""
+'''
 .headers on
 .mode csv
 .output data.csv
@@ -68,6 +68,6 @@ ibeacon_range,
 created_at,
 updated_at,
 last_seen from blue_hydra_devices;
-"""
+'''
 #df = pd.read_csv('blue_hydra.db.2016-10-12_H08M10.csv', names=
  #header)
