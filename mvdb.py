@@ -27,7 +27,8 @@ for k in files:
         print(filepath,':Does not exist.')
         next
 
-def makefiles():
+
+def makefiles(): # for testing
     for k in files:
         filepath = os.path.join(PATH, files[k])
         call(['touch',filepath])
