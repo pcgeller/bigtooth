@@ -5,12 +5,12 @@ from os import listdir
 from os.path import isfile, join
 import pandas as pd
 
-DBPATH = '/home/pcgeller/bigtooth/dbs'
+DBPATH = '/home/pcgeller/workspace/bigtooth/dbs'
 DATAPATHS = ['dbs','logs']
 PROJECT = '/home/pcgeller/bigtooth'
-def fetchdbs(remote = 'pi@192.168.1.186', \
+def fetchdbs(LOCAL, \
+        remote = 'pi@192.168.1.186', \
         REMOTE = '/home/pi/bigtooth/', \
-        LOCAL = '/home/pcgeller/bigtooth/',\
         DATAPATHS = DATAPATHS):
     for PATH in DATAPATHS:
         call(['scp', '-r', remote + ':' + join(REMOTE,PATH), LOCAL ])
@@ -31,6 +31,7 @@ def dbstocsv(path=DBPATH, header = False, mkfiles = False):
         c.execute('SELECT id, uuid, name, status, address, uap_lap, vendor,\
         appearance, company, company_type, lmp_version, manufacturer, firmware,\
         ibeacon_range, created_at, updated_at, last_seen from blue_hydra_devices;')
+
         completelist.extend(c.fetchall())
         print(len(completelist))
         if mkfiles == True:

@@ -1,70 +1,55 @@
 from ingest import *
+import numpy as np
 
 data = dbstocsv()
 df = pd.DataFrame(data, columns = header)
-unquuid = df.uuid.unique()
 
 #Clean up time columns.  Make it a nice dataframe object.
 timecols  = ['created_at', 'updated_at']
-def datetime(timecols = timecols):
+def cleanDT(timecols = timecols):
     for col in timecols:
-        df[col] = pd.to_datetime(df[col])
+        time = pd.DatetimeIndex(df[col])
+        time = time.tz_localize('UTC')
+        time = time.tz_convert('US/Eastern')
+        df[col] = time
+        df['epoch_' + col] = time.astype(np.int64) // 10**9
 
-times = pd.DatetimeIndex(df.created_at)
-grouped = df.groupby([times.hour, times.minute])
+cleanDT()
+df['duration'] = abs(df['epoch_created_at'] - df['last_seen'])
 
-nfp = pd.read_csv("NFP.csv", parse_dates=[0], infer_datetime_format=True)
-temp = pd.DatetimeIndex(nfp['DateTime'])
-nfp['Date'] = temp.date
-nfp['Time'] = temp.time
-del nfp['DateTime']
+catcols = ['uuid','name','status','address','uap_lap',\
+'vendor','appearance','company', 'company_type','lmp_version','manufacturer',\
+'firmware']
+def cleanCat(df,catcols = catcols):
+    for col in catcols:
+        df[col] = df[col].astype('category')
 
-print(nfp)
-
-def getdates(col,start,end):
-    col = 'created_at'
-    start = '2016-10-20'
-    end = '2016-10-24'
-    mask = (df[col] > start) & (df[col] <= end)
-    print(df.loc[mask])
-
-def cntcol(colname):
+def cntcol(df, colname):
     count = df.groupby([colname]).size().reset_index().rename(columns={0:'count'})
     count = count.sort_values('count')
     return(count)
 
+cntuuid = cntcol(df, 'uuid')
+cntaddress = cntcol(df, 'address')
+cntvendor = cntcol(df, 'vendor')
 
 
-
-cntuuid = cntcol('uuid')
-cntaddress = cntcol('address')
-cntvendor = cntcol('vendor')
-
-
-x = unquuid[1]
-tdict = {'uuid':x}
-df.fillna("MISSING")
-df[df['uuid'].str.contains(x)]
-#df.vendor[df['company'].str.contains("G")].values
-#df['company'].notnull()
-
-#df = pd.read_csv('blue_hydra.db.2016-10-12_H08M10.csv', names=
- #header)
 
 #Make unique list of uuid
 unquuid = df.uuid.unique()
-
+x = unquuid[1]
+tdict = {'uuid':x}
+df[df['uuid'].str.contains(x)]
 #Clean up any null values
+df.fillna("MISSING")
 
 #For each uuid select the date created and store it in a dictionary
-tdict = {'uuid':'timecreated'}
+tdict = {'address':'timecreated'}
 for u in unquuid:
     tstamps = list(df.created_at[df['address'].str.contains(u)].values)
     tdict[u] = tstamps
 
-freq = cntaddress.sort_values('count')
-
-
 cntaddress.sort_values('count').tail(1).address.values
-#Has
+
+#This is my stereo system.
 df[df['address'].str.contains('00:08:E0:4C:2F:85')]
