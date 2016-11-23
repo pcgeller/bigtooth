@@ -5,7 +5,7 @@ from os import listdir
 from os.path import isfile, join
 import pandas as pd
 
-DBPATH = '/home/pcgeller/workspace/bigtooth/dbs'
+DBPATH = '/home/pcgeller/bigtooth/dbs'
 DATAPATHS = ['dbs','logs']
 PROJECT = '/home/pcgeller/bigtooth'
 def fetchdbs(LOCAL, \
