@@ -23,11 +23,22 @@ def selectweekdays(df, startday = 0, endday = 4, col = 'created_at'):
     sub = df[np.logical_and(df[col].dt.weekday >= startday, df[col].dt.weekday <= endday)]
     return(sub)
 
+def getelection():
+    election = selectday(df)
+    election = selecthour(election)
+    election = selectmonth(election)
+    return(election)
+
+def getbigtooth():
+    #Pick out weekdaytrips from my commute
+    sub = selecthour(df,6,8)
+    sub = selectweekdays(sub)
+    #cleanCat(sub)
+    return(sub)
+
 #It took forever to figure this out.
 df['created_at'].dt.hour
 df['created_at'].dt.day
-
-
 
 barplot(cntcol(df, 'address'))
 
@@ -46,22 +57,9 @@ masktime = (df['created_at'].dt.hour > 15)
 maskdate = (df['created_at'].dt.month == 11)
 sub = df.loc[mask]
 
-def getelection():
-    election = selectday(df)
-    election = selecthour(election)
-    election = selectmonth(election)
-    return(election)
-
-def getbigtooth():
-    #Pick out weekdaytrips from my commute
-    sub = selecthour(df,6,8)
-    sub = selectweekdays(sub)
-    #cleanCat(sub)
-    return(sub)
-
 bt = getbigtooth()
 g = sns.barplot(x=df.vendor.value_counts().index, y=df.vendor.value_counts())
-
+g = sns.barplot(x=bt.address.value_counts().index, y=bt.address.value_counts())
 
 #Count of unique UAPs
 plot = sns.barplot(x='address', y='count', data = cntaddress)
@@ -80,6 +78,7 @@ hm = pd.pivot_table(bt,index=['uap_lap'],values='uuid',columns='day',\
 aggfunc=lambda x: len(x.dropna().unique()))
 g = sns.heatmap(hm, fmt='g')
 
+g.set_xticklabels(g.get_xticklabels(),rotation = 90)
 g.set_yticklabels(g.get_yticklabels(),rotation=0)
 
 bt['freq'] = bt.groupby('address')['address'].transform('count')
