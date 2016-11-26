@@ -87,6 +87,7 @@ multi = bt[bt['freq'] > 2]
 hm = pd.pivot_table(multi, index=['address','name','vendor'], values='uuid',\
     columns='date', aggfunc = len)
 g = sns.heatmap(hm, fmt='g', cmap='RdBu_r')
+g.set_yticklabels(g.get_yticklabels(),rotation=0)
 
 sns.stripplot(x='vendor', y='strtime', data=bt, jitter = True)
 bt['created_at'].dt.strftime('%H:%M')
