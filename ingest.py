@@ -1,11 +1,14 @@
 import sqlite3
 import csv
+import pickle
 from subprocess import call
 from os import listdir
 from os.path import isfile, join
 import pandas as pd
 
-DBPATH = '/home/pcgeller/bigtooth/dbs'
+
+
+DBPATH = '/home/pcgeller/workspace/bigtooth/dbs'
 DATAPATHS = ['dbs','logs']
 PROJECT = '/home/pcgeller/bigtooth'
 def fetchdbs(LOCAL, \
@@ -19,6 +22,15 @@ header = ['id','uuid','name','status','address','uap_lap',\
 'vendor','appearance','company', 'company_type','lmp_version','manufacturer',\
 'firmware','ibeacon_range','created_at','updated_at','last_seen']
 dbs = [db for db in listdir(DBPATH) if isfile(join(DBPATH, db))]
+
+def pkl(data, filename):
+    with open(filename, 'wb') as f:
+        pickle.dump(data,f,pickle.HIGHEST_PROTOCOL)
+
+def unpkl(filename):
+    with open(filename, 'rb') as f:
+        data = pickle.load(f)
+    return(data)
 
 def dbstocsv(path=DBPATH, header = False, mkfiles = False):
     #DBPATH = './bigtooth/dbs'
