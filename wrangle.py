@@ -3,9 +3,9 @@ import numpy as np
 from datetime import date, datetime, timedelta
 import datetime
 
-#data = dbstocsv()
+data = dbstocsv()
 #pkl(data, '/home/pcgeller/workspace/bigtooth/data/alldata.pkl')
-data = unpkl('/home/pcgeller/workspace/bigtooth/data/alldata.pkl')
+#data = unpkl('/home/pcgeller/workspace/bigtooth/data/alldata.pkl')
 df = pd.DataFrame(data, columns = header)
 print("Data Unpkled")
 
@@ -203,7 +203,18 @@ def mktdict(unquuid = unquuid):
         tdict[u] = tstamps
     return(tdict)
 
-#tdict = mktdict()
+def mktdict2(df):
+    print("Making tstamp2 dictionary")
+    tdict = {'address':'timecreated'}
+    for a in df['address'].unique():
+        print(a)
+        tstamps = list(df.created_at[df['address'].str.contains(a)].values)
+        tdict[a] = tstamps
+    return(tdict)
+
+tdict = mktdict2(bt)
+
+tdict['B0:34:95:51:D7:22']
 
 #cntaddress.sort_values('count').tail(1).address.values
 
