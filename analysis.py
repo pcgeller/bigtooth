@@ -1,10 +1,11 @@
 from wrangle import *
 import seaborn as sns
 sns.set(rc={'figure.facecolor':'lightgray'})
+sns.set_context('talk')
 import matplotlib.pyplot as plt
 
 pd.set_option('display.width', pd.util.terminal.get_terminal_size()[0])
-pd.set_option('display.max_columns', None)'
+pd.set_option('display.max_columns', None)
 
 sns.stripplot(x='pdate', y='ptime', data
 
@@ -13,31 +14,53 @@ sns.stripplot(x='pdate', y='ptime', data
     #plot.set_xticklabels(rotation = 45)
     #return(plot)
 
+plt.figure(figsize=(16,9))
+ax = plt.axes()
+
 #Try a hexplot
 sns.set(style='ticks')
-sns.set_context('talk')
 x = df['created_at'].dt.day
 y = df['created_at'].dt.hour
 g = sns.jointplot(x,y, kind='hex')
 
-
-cntmap = bt.vendor.value_counts()
-
+#Graph of vendor counts
 btsub = bt.vendor.value_counts().ix[bt.vendor.value_counts() > 2]
-g = sns.barplot(x=btsub.index, y=btsub.values, order=btsub.index)
+mypal = sns.color_palette('husl',len(btsub))
+g = sns.barplot(x=btsub.index, y=btsub.values, order=btsub.index, ax = ax, \
+    palette=mypal)
 g.set_title('Count of Devices by Vendor [freq > 2]')
 g.set_ylabel('Count of Devices')
 g.set_xticklabels(g.get_xticklabels(),rotation = 90)
 
-g = sns.barplot(x=btsub.address.value_counts().index, y=btsub.address.value_counts())
-
-#Graph of vendor counts
-g = sns.barplot(x=bt.address.value_counts().index, y=bt.address.value_counts(), order=bt.address.value_counts().index[::-1])
+#Graph of address counts
+mypal = sns.color_palette('husl',400)
+g = sns.barplot(x=bt.address.value_counts().index, y=bt.address.value_counts(),\
+    order=bt.address.value_counts().index, ax = ax, palette=mypal)
 g.get_xaxis().set_visible(True)
-g.set_title("Device Observation Frequency")
+g.set_title("Frequency of Device Observation")
 g.set_ylabel('Number of Days a Device is Observed')
 g.set_xlabel('Unique Device Addresses')
 g.set_xticklabels('')
+
+#Heatmap of devices seen over time
+multi = bt[bt['freq'] > 8]
+multi = multi.sort_values(by='freq')
+multi.name.fillna('Undetected', inplace = True)
+
+hm = pd.pivot_table(multi, index=[multi.pretty.cat.remove_unused_categories()],\
+ values='uuid',columns='pdate', aggfunc = len)
+
+plt.figure(figsize=(16,9))
+ax = plt.axes()
+g = sns.heatmap(hm, fmt='g', cmap='RdBu_r', cbar=False, ax = ax, \
+    linewidths = 1, linecolor = 'gray', vmin=0, vmax=1, \
+    square=False)
+g.set_title('Observation of Devices Over Time (freq > 8)')
+g.set_yticklabels(g.get_yticklabels(),rotation=0)
+g.set_xticklabels(g.get_xticklabels(),rotation = 90)
+g.set_xlabel('')
+g.set_ylabel('Device Addresses')
+
 #build heatmap for uap_lap over each day
 hm = pd.pivot_table(bt,index='uap_lap',values='uap_lap', \
 columns=bt['created_at'].dt.day,aggfunc=len)
@@ -109,7 +132,7 @@ for i in bt['vendor']:
 start_date = '20161108'
 end_date = '20161110'
 maskdate = (df['created_at'] > start_date) & (df['created_at'] <= end_date)
-masktime = (df['created_at'].dt.hour > wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwcx15)
+masktime = (df['created_at'].dt.hour > 15)
 maskdate = (df['created_at'].dt.month == 11)
 sub = df.loc[mask]
 

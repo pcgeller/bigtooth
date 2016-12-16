@@ -3,11 +3,14 @@ import numpy as np
 from datetime import date, datetime, timedelta
 import datetime
 
-data = dbstocsv()
+#data = dbstocsv()
 #pkl(data, '/home/pcgeller/workspace/bigtooth/data/alldata.pkl')
-#data = unpkl('/home/pcgeller/workspace/bigtooth/data/alldata.pkl')
+data = unpkl('/home/pcgeller/workspace/bigtooth/data/alldata.pkl')
 df = pd.DataFrame(data, columns = header)
-print("Data Unpkled")
+
+stationdata = dbstocsv(path = '/home/pcgeller/workspace/bigtooth/dbs/stationary')
+stat = pd.DataFrame(stationdata, columns = header)
+
 
 #Clean up time columns.  Make it a nice dataframe object.
 timecols  = ['created_at', 'updated_at']
@@ -22,6 +25,7 @@ def cleanDT(df = df, timecols = timecols):
 
 cleanDT()
 df['duration'] = abs(df['epoch_created_at'] - df['last_seen'])
+
 
 
 catcols = ['uuid','name','status','address','uap_lap',\
@@ -85,7 +89,7 @@ def getelection():
     election = selectmonth(election)
     return(election)
 
-def getbigtooth():
+def getbigtooth(df):
     #Pick out weekdaytrips from my commute
     print('Subsetting to bigtooth data')
     sub = selecthour(df,6,8)
@@ -165,10 +169,11 @@ df.ix[df['tsincefirst'] > 80000,['created_at', 'firstts','tsincefirst','date']]
 '''
 
 #GET PROJECT DATA
-bt = getbigtooth()
+bt = getbigtooth(df)
 
 #Make sure columns are cat and add extra categories
 cleanCat(bt)
+
 adict = mknamedict(bt)
 bt['namegen'] = bt['address'].map(adict)
 #bt = firsttstamp(bt)
@@ -181,7 +186,23 @@ multi = bt[bt['freq'] > 4]
 multi = multi.sort_values(by='freq')
 #multi.name.cat.add_categories('Undetected')
 
+#Work the stationary bigtooth
+cleanDT(df = stat)
 
+stat['date'] = pd.DatetimeIndex(stat['created_at'].dt.date)
+stat['pdate'] = stat['created_at'].dt.strftime('%D')
+stat['ptime'] = stat['created_at'].dt.strftime('%H:%M')
+stat['freq'] = stat.groupby('address')['address'].transform('count')
+stat['day'] = stat['created_at'].dt.day
+cleanCat(stat)
+df2 = rmstationarydev(df, stat)
+bt2 = getbigtooth(df2)
+cleanCat(bt2)
+adict2 = mknamedict(bt2)
+bt2['namegen'] = bt2['address'].map(adict2)
+bt2['pretty'] = bt2['address'].astype(str) + ' --- ' + bt2['namegen'].astype(str) \
+    + ' --- ' + bt2['vendor'].astype(str)
+bt2['pretty'] = bt2['pretty'].astype('category')
 #cntuuid = cntcol(df, 'uuid')
 #cntaddress = cntcol(df, 'address')
 #cntvendor = cntcol(df, 'vendor')
@@ -207,12 +228,12 @@ def mktdict2(df):
     print("Making tstamp2 dictionary")
     tdict = {'address':'timecreated'}
     for a in df['address'].unique():
-        print(a)
+        #print(a)
         tstamps = list(df.created_at[df['address'].str.contains(a)].values)
         tdict[a] = tstamps
     return(tdict)
 
-tdict = mktdict2(bt)
+tdict = mktdict2(bt2)
 
 tdict['B0:34:95:51:D7:22']
 
