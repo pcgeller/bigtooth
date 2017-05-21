@@ -1,0 +1,6 @@
+CREATE TABLE gps(
+  n_lat int,
+  w_long int,
+  date_time int,
+  PRIMARY KEY(date_time)
+);

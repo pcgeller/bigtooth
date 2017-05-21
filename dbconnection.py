@@ -1,17 +1,25 @@
 import psycopg2
 
-class dbconnection:
+class database:
     def __init__(self):
         self.name = 'postgres'
-
-    def startconn():
+    def startconn(self):
         try:
-            conn = psycopg2.connect(
-                host=localhost,
+            self.conn = psycopg2.connect(
+                host='localhost',
                 port="5432",
                 database="bigtooth",
-                user=bigtooth,
-                password=bigtooth)
-            return(conn)
+                user='bigtooth',
+                password='bigtooth')
+            return(self.conn)
         except:
             print ("\n_________CONNECTION FAILURE_________\n")
+
+
+# conn = psycopg2.connect(
+#     host='localhost',
+#     port="5432",
+#     database="bigtooth",
+#     user='bigtooth',
+#     password='bigtooth')
+# return(conn)
