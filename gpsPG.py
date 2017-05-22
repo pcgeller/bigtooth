@@ -16,8 +16,8 @@ subprocess.call(['sudo', 'gpsd', '/dev/ttyUSB0', \
 try:
     ser = serial.Serial("/dev/ttyUSB0")    # baudrate=9600)
 except:
-    print()"Error opening serial port.")
-    sys.exit(1)
+    print("Error opening serial port.")
+    sys.exit(1)atom
 
 try:
     conn = psycopg2.connect(
@@ -53,7 +53,7 @@ try:
                     dateTime = "%s %s" % (date, t)
                     north = data[3]
                     west = data[5]
-                    sql = "insert into gps(n_lat, w_long, time, date_time) values(%s, %s, %s)" % (north, west, dateTime)
+                    sql = "insert into gps(n_lat, w_long, time, date_time, time, date) values(%s, %s, %s, %s, %s)" % (north, west, dateTime, t, date)
                     print(sql)
                     #cur.execute(sql)
                     #print("Rows inserted: %s" % cur.rowcount)
