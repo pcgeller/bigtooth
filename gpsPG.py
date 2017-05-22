@@ -17,7 +17,7 @@ try:
     ser = serial.Serial("/dev/ttyUSB0")    # baudrate=9600)
 except:
     print("Error opening serial port.")
-    sys.exit(1)atom
+    sys.exit(1)
 
 try:
     conn = psycopg2.connect(
@@ -49,16 +49,16 @@ try:
                     hour = data[1][0:2]
                     min = data[1][2:4]
                     sec = data[1][4:6]
-                    t = "%s:%s:%s" % (hour, min, sec)
+                    t = "%s:%s:%s-0000" % (hour, min, sec)
                     dateTime = "%s %s" % (date, t)
                     north = data[3]
                     west = data[5]
-                    sql = "insert into gps(n_lat, w_long, time, date_time, time, date) values(%s, %s, %s, %s, %s)" % (north, west, dateTime, t, date)
+                    sql = "insert into gps(n_lat, w_long, date_time, time, date) values(%s, %s, %s, %s, %s)" % (north, west, dateTime, t, date)
                     print(sql)
-                    #cur.execute(sql)
-                    #print("Rows inserted: %s" % cur.rowcount)
-                    #conn.commit()
-                    #time.sleep(0.5)
+                    cur.execute(sql)
+                    print("Rows inserted: %s" % cur.rowcount)
+                    conn.commit()
+                    time.sleep(0.1)
                     resp = ""
 except:
     print(sys.exc_info()[0])
