@@ -1,6 +1,5 @@
 import psycopg2
 
-class database:
     def __init__(self):
         self.name = 'postgres'
     def startconn(self):
@@ -14,6 +13,7 @@ class database:
             return(self.conn)
         except:
             print ("\n_________CONNECTION FAILURE_________\n")
+
 
 
 # conn = psycopg2.connect(

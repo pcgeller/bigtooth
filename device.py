@@ -1,35 +1,31 @@
 #Create a bigtooth device.  Connect over wifi/ssh.
 #Make blue hydra, gpsd, database available.
+import subprocess
 
 class device:
     def __init__(self):
         self.name='bigtooth'
-        self.loacalddress='192.168.1.186'
+        self.localaddress='192.168.1.186'
         self.user='pi'
         self.remoteAddress='192.168.42.1'
-    def connect(hostname):
-        ssh = subprocess.Popen(["ssh", "%s" % remote],
-                       shell=False,
-                       stdout=subprocess.PIPE,
-                       stderr=subprocess.PIPE)
-                       result = ssh.stdout.readlines()
-                       if result == []:
-                           error = ssh.stderr.readlines()
-                           print >>sys.stderr, "ERROR: %s" % error
-                       else:
-                           print result
+        self.paths=['/home/pi/bigtooth2/db/*']
+        self.localPATH='/home/pcgeller/scratch'
+        self.remote=self.user,'@',self.remoteAddress,':',self.paths
 
+    def sync(self):
+        remote=self.user,'@',self.remoteAddress,':',self.paths
+        #remote='pi@192.168.1.186:/home/pi/bigtooth2/db/*'
+        #subprocess.Popen(['scp', '-r',
+        #'pi@192.168.1.186:/home/pi/bigtooth2/db',
+        #'/home/pcgeller/scratch']).wait()
+        subprocess.Popen(['scp', '-r', str(remote), str(localPATH)]).wait()
+    def cleanup(self):
+        subprocess.Popen['rm', '']
+    def resync(self):
+        subprocess.Popen(['rsync', str(remote), str(localPath)]).wait()
 
-import subprocess
-NAME='bigtooth'
-remote='192.168.42.1'
-warg=['ssh','pi@192.168.42.1']
-subprocess.Popen(['ssh', 'pi@%h' % remote])
-subprocess.Popen(warg,
-    stdin = subprocess.PIPE,
-    stdout= subprocess.PIPE,
-    )
-
+bt = device()
+bt.sync()
 import gps3
 import subprocess
 #Setup gpsd
