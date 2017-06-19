@@ -53,14 +53,15 @@ try:
                     dateTime = "%s %s" % (date, t)
                     north = data[3]
                     west = data[5]
-                    sql = "insert into gps(n_lat, w_long, date_time, time, date) values(%s, %s, %s, %s, %s)" % (north, west, dateTime, t, date)
+                    sql = "insert into gps(n_lat, w_long, date_time, time, date) values(%s, %s, '%s', '%s', '%s')" % (north, west, dateTime, t, date)
                     print(sql)
                     cur.execute(sql)
                     print("Rows inserted: %s" % cur.rowcount)
                     conn.commit()
                     time.sleep(0.1)
                     resp = ""
-except:
+except Exception as e:
+    print(e)
     print(sys.exc_info()[0])
 
 finally:
