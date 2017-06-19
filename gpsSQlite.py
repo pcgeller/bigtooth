@@ -19,13 +19,27 @@ except:
     print("Error opening serial port.")
     sys.exit(1)
 
+
+
+
 try:
-    conn = sqlite3.connect('/home/pi/bigtooth/btGPS.sqlite')
+    conn = sqlite3.connect('/home/pi/bigtooth2/db/GPS/btGPS.sqlite')
     cur = conn.cursor()
 except:
     print ("\n_________CONNECTION FAILURE_________\n")
 
+'''
+cur.execute('CREATE TABLE gps(\
+  n_lat int,\
+  w_long int,\
+  date_time int,\
+  time int,\
+  date int,\
+  PRIMARY KEY(date_time));')
 resp = ""
+''''
+
+resp = ''
 
 try:
     while True:
