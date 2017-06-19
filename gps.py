@@ -10,7 +10,6 @@ import dbconnection
 #Setup gpsd
 subprocess.call(['sudo', 'gpsd', '/dev/ttyUSB0', \
     '-F', '/var/run/gpsd.sock'])
-e
 try:
     serial = serial.Serial("/dev/ttyUSB0", baudrate=9600)
     time.sleep(1)
@@ -49,6 +48,7 @@ try:
                             con.commit()
                             time.sleep(0.5)
                             resp = ""
+
 except:
     print sys.exc_info()[0]
 

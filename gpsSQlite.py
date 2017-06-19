@@ -6,7 +6,7 @@ import datetime
 import time
 import os
 import sys
-import psycopg2
+import sqlite3
 import subprocess
 #import gps3
 #import dbconnection
@@ -20,12 +20,7 @@ except:
     sys.exit(1)
 
 try:
-    conn = psycopg2.connect(
-        host='localhost',
-        port="5432",
-        database="bigtooth",
-        user='bigtooth',
-        password='bigtooth')
+    conn = sqlite3.connect('/home/pi/bigtooth/btGPS.sqlite')
     cur = conn.cursor()
 except:
     print ("\n_________CONNECTION FAILURE_________\n")
@@ -60,12 +55,11 @@ try:
                     conn.commit()
                     time.sleep(0.1)
                     resp = ""
-except Exception as e:
+except InternalError as e:
     print(e)
-    print(sys.exc_info()[0])
-except InternalError as x:
-    print(x)
     conn.rollback()
+except Exception as e:
+    print(sys.exc_info()[0])
 
 finally:
     if conn:
