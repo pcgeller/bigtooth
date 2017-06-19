@@ -10,7 +10,9 @@ import psycopg2
 import subprocess
 #import gps3
 #import dbconnection
+import sqlite3
 #Setup gpsd
+
 subprocess.call(['sudo', 'gpsd', '/dev/ttyUSB0', \
     '-F', '/var/run/gpsd.sock'])
 try:
@@ -18,6 +20,17 @@ try:
 except:
     print("Error opening serial port.")
     sys.exit(1)
+
+
+
+def makeTable(schema=("CREATE TABLE gps(n_lat integer,w_long integer,date_time integer,obs_time integer,obs_date int);"),
+        DB="/home/pcgeller/bigtooth2/db/GPS/gps.db"):
+# End default args
+    conn = sqlite3.connect(DB)
+    c = conn.cursor()
+    c.execute(schema)
+    conn.close()
+
 
 try:
     conn = psycopg2.connect(
@@ -53,19 +66,19 @@ try:
                     dateTime = "%s %s" % (date, t)
                     north = data[3]
                     west = data[5]
-                    sql = "insert into gps(n_lat, w_long, date_time, time, date) values (%s, %s, '%s', '%s', '%s');" % (north, west, dateTime, t, date)
+                    sql = "insert into gps(n_lat, w_long, date_time, obs_time, obs_date) values (%s, %s, '%s', '%s', '%s');" % (north, west, dateTime, t, date)
                     print(sql)
                     cur.execute(sql)
                     print("Rows inserted: %s" % cur.rowcount)
                     conn.commit()
                     time.sleep(0.1)
                     resp = ""
+
+#except InternalError as e:
+#    print(e)
+#    conn.rollback()
 except Exception as e:
-    print(e)
     print(sys.exc_info()[0])
-except InternalError as x:
-    print(x)
-    conn.rollback()
 
 finally:
     if conn:

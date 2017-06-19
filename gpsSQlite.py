@@ -19,25 +19,21 @@ except:
     print("Error opening serial port.")
     sys.exit(1)
 
+def makeTable(schema=("CREATE TABLE gps(n_lat integer,w_long integer,date_time integer,obs_time integer,obs_date int);"),
+        DB="/home/pi/bigtooth2/db/GPS/gps.sqlite"):
+# End default args
+    conn = sqlite3.connect(DB)
+    c = conn.cursor()
+    c.execute(schema)
+    conn.close()
 
-
+makeTable()
 
 try:
-    conn = sqlite3.connect('/home/pi/bigtooth2/db/GPS/btGPS.sqlite')
+    conn = sqlite3.connect('/home/pi/bigtooth2/db/GPS/gps.sqlite')
     cur = conn.cursor()
 except:
     print ("\n_________CONNECTION FAILURE_________\n")
-
-'''
-cur.execute('CREATE TABLE gps(\
-  n_lat int,\
-  w_long int,\
-  date_time int,\
-  time int,\
-  date int,\
-  PRIMARY KEY(date_time));')
-resp = ""
-''''
 
 resp = ''
 
@@ -62,16 +58,14 @@ try:
                     dateTime = "%s %s" % (date, t)
                     north = data[3]
                     west = data[5]
-                    sql = "insert into gps(n_lat, w_long, date_time, time, date) values (%s, %s, '%s', '%s', '%s');" % (north, west, dateTime, t, date)
+                    sql = "insert into gps(n_lat, w_long, date_time, obs_time, obs_date) values (%s, %s, '%s', '%s', '%s');" % (north, west, dateTime, t, date)
                     print(sql)
                     cur.execute(sql)
                     print("Rows inserted: %s" % cur.rowcount)
                     conn.commit()
                     time.sleep(0.1)
                     resp = ""
-except InternalError as e:
-    print(e)
-    conn.rollback()
+
 except Exception as e:
     print(sys.exc_info()[0])
 
