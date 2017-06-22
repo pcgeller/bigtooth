@@ -63,7 +63,7 @@ try:
                     cur.execute(sql)
                     print("Rows inserted: %s" % cur.rowcount)
                     conn.commit()
-                    time.sleep(0.1)
+                    time.sleep(0.3)
                     resp = ""
 
 except Exception as e:
