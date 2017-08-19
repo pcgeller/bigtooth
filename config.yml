@@ -1,0 +1,17 @@
+rmtAddress: pi@192.168.1.186
+LOCALDB: /home/pcgeller/btData
+REMOTEDB: /home/pi/bigtooth2/db
+
+sqlite3:
+  DATAPATHS: [dbs,logs]
+  PROJECT: /home/pcgeller/bigtooth
+  constants: constants
+  header: [id,uuid,name,status,address,uap_lap,vendor,appearance,company, company_type,lmp_version, \
+  manufacturer,firmware,ibeacon_range,created_at,updated_at,last_seen]
+
+pg:
+  DATAPATHS: [dbs,logs]
+  PROJECT: /home/pcgeller/bigtooth
+  constants: constants
+  header: [id,uuid,name,status,address,uap_lap,vendor,appearance,company, company_type,lmp_version, \
+  manufacturer,firmware,ibeacon_range,created_at,updated_at,last_seen]
