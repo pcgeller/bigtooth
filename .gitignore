@@ -1,3 +1,5 @@
+deviceSetup.md
 db/
 *.sql
+__pycache__
 *.db
