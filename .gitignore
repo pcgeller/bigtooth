@@ -1,5 +1,5 @@
 dbs.*
-csv
+*.csv
 data
 .gitignore
 blue_hydra
@@ -12,4 +12,7 @@ bigtooth.pg
 __pycache__
 rssi
 setup*
+*.png
+*.pdf
+
 
