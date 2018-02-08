@@ -2,4 +2,4 @@ __pycache__
 deviceSetup.md
 db/
 *.sql
-*.db
+.db
