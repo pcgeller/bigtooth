@@ -14,7 +14,7 @@ To prep for deeper analysis a subset of the data can be loaded into device objec
 that represent each unique device found.  Each device contains the meta data about
 discovered device in addition to the time and location of each observation.
 
-Future plans include LTE capabilties.  Anyone want to donate $1.5k for a SDR?
+Future plans include LTE capabilties... but SDRs aren't cheap.
 
 Because who the hell cares if you're being tracking **another** way.
 
