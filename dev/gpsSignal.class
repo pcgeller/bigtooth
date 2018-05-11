@@ -1,0 +1,8 @@
+class gpsSignal:
+    subprocess.call(['sudo', 'gpsd', '/dev/ttyUSB0', \
+        '-F', '/var/run/gpsd.sock'])
+    try:
+        ser = serial.Serial("/dev/ttyUSB0")    # baudrate=9600)
+    except:
+        print("Error opening serial port.")
+        sys.exit(1)
