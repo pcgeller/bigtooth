@@ -7,5 +7,5 @@ sh $1/bigtooth/dev/bin/rotate.sh $1
 pushd $1/data/bh/current
 sudo $1/blueHydra/bin/blue_hydra -d &
 popd
-python3 $1/bigtooth/dev/gpsSQlite.py >/dev/null &
+python3 $1/bigtooth/dev/gpsSQlite.py > /home/pi/scratch/python &
 exit 0

@@ -6,8 +6,8 @@ echo $today
 #default /opt
 
 bhdbfilename="$1/data/bh/$today.bh.sqlite"
-cp $1/data/bh/current/blue_hydra.db $bhdbfilename
-rm $1/data/bh/current/blue_hydra.db
+cp /blue_hydra.db $bhdbfilename
+rm /blue_hydra.db
 
 gpsdbfilename="$1/data/gps/$today.gps.sqlite"
 cp $1/data/gps/current/gps.sqlite $gpsdbfilename
