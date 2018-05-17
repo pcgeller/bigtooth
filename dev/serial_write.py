@@ -12,6 +12,8 @@ ser = serial.Serial(
 
 counter = 0
 while 1:
-    ser.write('Write counter: %d \n'%(counter))
+    s = 'Write counter: %d'%(counter)
+    sb = str.encode(s)
+    ser.write()
     time.sleep(1)
     counter += 1
