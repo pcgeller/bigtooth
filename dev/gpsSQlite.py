@@ -20,7 +20,7 @@ except:
     sys.exit(1)
 
 def makeTable(schema=("CREATE TABLE gps(n_lat integer,w_long integer,date_time integer,obs_time integer,obs_date int);"),
-        DB="/home/pi/bigtooth2/db/GPS/gps.sqlite"):
+        DB="/opt/data/gps/current/gps.sqlite"):
 # End default args
     conn = sqlite3.connect(DB)
     c = conn.cursor()
@@ -30,7 +30,7 @@ def makeTable(schema=("CREATE TABLE gps(n_lat integer,w_long integer,date_time i
 makeTable()
 
 try:
-    conn = sqlite3.connect('/home/pi/bigtooth2/db/GPS/gps.sqlite')
+    conn = sqlite3.connect('/opt/data/gps/current/gps.sqlite')
     cur = conn.cursor()
 except:
     print ("\n_________CONNECTION FAILURE_________\n")
