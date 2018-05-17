@@ -11,9 +11,10 @@ ser = serial.Serial(
 )
 
 counter = 0
-while 1:
-    s = 'Write counter: %d'%(counter)
+while True:
+    #s = 'Write counter: %d'%(counter)
+    s = input("Enter AT command:")
     sb = str.encode(s)
-    ser.write()
+    ser.write(sb)
     time.sleep(1)
     counter += 1
