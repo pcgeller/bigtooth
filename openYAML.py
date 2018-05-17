@@ -1,4 +1,4 @@
-import yaml
+simport yaml
 
 path = '/home/pcgeller/bigtooth/config.yml'
 file = open(path, 'r')
