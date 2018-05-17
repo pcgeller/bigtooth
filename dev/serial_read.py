@@ -18,5 +18,5 @@ counter=0
 
 
 while 1:
-    x=ser.readline()
+    x=ser.read(32)
     print(x)
