@@ -1,7 +1,17 @@
 import serial
 
-ser = serial.Serial("/dev/ttyAMA0", baudrate=19200, timeout=2.0)
-ser.write('AT\r')
-print ser("AT Command was Sent.\n waiting for OK\n")
-print ser.read(100) #if everything went as expected it should return OK
+ser = serial.Serial("/dev/ttyUSB0", timeout=2.0)
+ser.write('AT+CSCS\r'.encode())
+print("AT Command was Sent.\n waiting for OK\n")
+out = ser.read(100)
+print("Type is:  ", type(out))
+#print("raw  ", ser.read(100))
+print("out  :", out.decode())
+#print(out)
+#print(out.decode("utf-8")) 
+print("raw out  :",out)
+#print("ascii  :", out.decode("ascii"))
+#print(bytearray.fromhex(out).decode())
+print("unicode_escape:  ", out.decode("unicode_escape"))
+#print(out.decode("hex"))
 ser.close()
