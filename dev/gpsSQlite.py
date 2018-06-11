@@ -16,8 +16,8 @@ import subprocess
 
 serialPort = "/dev/ttyUSB0"
 gpsDatabase = "/opt/data/gps/current/gps.sqlite"
-databaseSchema = ""CREATE TABLE gps(n_lat integer,w_long integer,\
-        date_time integer,obs_time integer,obs_date int);""
+databaseSchema = "CREATE TABLE gps(n_lat integer,w_long integer,\
+        date_time integer,obs_time integer,obs_date int);"
 
 def startGps():
     subprocess.call(['sudo', 'gpsd', '/dev/ttyUSB0', \
@@ -90,3 +90,4 @@ def logGps():
 ''
 startGps()
 makeTable()
+logGps()
