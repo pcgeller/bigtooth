@@ -31,14 +31,11 @@ class ingestor:
             config = yaml.load(f)
             keys, values = zip(*config.items())
 
-
         self.dbs = [db for db in listdir(conf['LOCALDB']) if isfile(join(conf['LOCALDB'], db))]
-
 
     def fetchdbs(self, conf):
         for PATH in DATAPATHS:
             call(['scp', '-r', remote + ':' + join(REMOTE,PATH), LOCAL ])
-
 
     def pkl(data, filename):
         with open(filename, 'wb') as f:

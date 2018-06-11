@@ -13,8 +13,8 @@ ser = serial.Serial(
 counter = 0
 while True:
     #s = 'Write counter: %d'%(counter)
-    s = input("Enter AT command:")
-    sb = str.encode(s)
-    ser.write(sb)
+    prompt = input("Enter AT command:")
+    promptInBytes = str.encode(s)
+    ser.write(promptInBytes)
     time.sleep(1)
     counter += 1
