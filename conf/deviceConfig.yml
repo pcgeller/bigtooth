@@ -1,0 +1,9 @@
+name: bigtooth
+localAddress: 192.168.1.186
+user: pi
+remoteAddress: 192.168.1.186
+remotePathBase: /opt/data/
+remoteDatabases:
+  - gps/
+  - bh/
+localPATH: /home/pcgeller/scratch

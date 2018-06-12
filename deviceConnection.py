@@ -1,37 +1,36 @@
 #Create a bigtooth device.  Connect over wifi/ssh.
 #Make blue hydra, gpsd, database available.
 import subprocess
+import yaml
 
 class device:
     def __init__(self):
-        self.name='bigtooth'
-        self.localaddress='192.168.1.186'
-        self.user='pi'
-        self.remoteAddress='192.168.42.1'
-        self.paths=['/home/pi/bigtooth2/db/*']
-        self.localPATH='/home/pcgeller/scratch'
-        self.remote=self.user,'@',self.remoteAddress,':',self.paths
+        with open(configPath, 'r') as infile:
+            config = yaml.load(infile)
+        self.name=config['name']
+        self.localAddress=config['localAddress']
+        self.user=config['user']
+        self.remoteAddress=config['remoteAddress']
+        self.remotePathBase=config['remotePathBase']
+        self.localPATH=config['localPATH']
+        self.remoteDatabases=config['remoteDatabases']
+        self.remotes=[self.user + '@' +self.remoteAddress +':' + self.remotePathBase + database for database in self.remoteDatabases]
 
     def sync(self):
-        remote=self.user,'@',self.remoteAddress,':',self.paths
-        #remote='pi@192.168.1.186:/home/pi/bigtooth2/db/*'
-        #subprocess.Popen(['scp', '-r',
-        #'pi@192.168.1.186:/home/pi/bigtooth2/db',
-        #'/home/pcgeller/scratch']).wait()
+        remote=self.user,'@',self.remoteAddress,':',self.remotePathBase
         subprocess.Popen(['scp', '-r', str(remote), str(localPATH)]).wait()
     def cleanup(self):
         subprocess.Popen['rm', '']
-    def resync(self):
-        subprocess.Popen(['rsync', str(remote), str(localPath)]).wait()
+    def rsync(self):
+        try:
+            for remote in self.remotes:
+                print(remote)
+                subprocess.Popen(['rsync', '-ave', str(remote), str(self.localPATH)]).wait()
+                print("Rsync'd files for :" + remote)
+        except Exception as e:
+            print(str(e))
 
-bt = device()
-bt.sync()
-import gps3
-import subprocess
-#Setup gpsd
-subprocess.call(['sudo', 'gpsd', '/dev/ttyUSB0', \
-    '-F', '/var/run/gpsd.sock'])
-#Ensure gpsd is running correction
-while True:
-    try:
-        print('True')
+if __name__=="__main__":
+    configPath = '/home/pcgeller/bigtooth/conf/deviceConfig.yml'
+    bt = device()
+    bt.rsync()

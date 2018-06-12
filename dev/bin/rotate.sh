@@ -12,3 +12,5 @@ rm /blue_hydra.db
 gpsdbfilename="$1/data/gps/$today.gps.sqlite"
 cp $1/data/gps/current/gps.sqlite $gpsdbfilename
 rm $1/data/gps/current/gps.sqlite
+
+echo "Databases rotated"

@@ -6,12 +6,12 @@ from subprocess import call
 from os import listdir
 from os.path import isfile, join
 
-piconf = {'name':'device',
+piconf = {'name':'bigtooth',
             'rmtAddress':'pi@192.168.1.186'}
 
 sql3conf = {'name':'sqlite3',
             'LOCALDB':'/home/pcgeller/btData',
-            'REMOTEDB':'/home/pi/bigtooth2/db/'
+            'REMOTEDB':'/opt/data/'
             'DATAPATHS':['dbs','logs'],
             'PROJECT':'/home/pcgeller/bigtooth',
             'deviceconf':piconf,
