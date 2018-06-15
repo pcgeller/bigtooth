@@ -4,7 +4,7 @@ import subprocess
 import yaml
 
 class device:
-    def __init__(self):
+    def __init__(self, configPath):
         with open(configPath, 'r') as infile:
             config = yaml.load(infile)
         self.name=config['name']

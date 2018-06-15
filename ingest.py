@@ -5,9 +5,9 @@ import yaml
 from subprocess import call
 from os import listdir
 from os.path import isfile, join
+import deviceConnection
 
-piconf = {'name':'bigtooth',
-            'rmtAddress':'pi@192.168.1.186'}
+piconf = '/opt'
 
 sql3conf = {'name':'sqlite3',
             'LOCALDB':'/home/pcgeller/btData',
@@ -74,3 +74,7 @@ class ingestor:
             c.close()
             conn.close()
         return(completelist)
+
+if __name__="__main__":
+    bt = device('/opt/bigtooth/conf/deviceConfig.yml')
+    bt.rsync()
