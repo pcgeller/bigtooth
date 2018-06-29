@@ -1,0 +1,8 @@
+localStorage: /home/pcgeller/bigtooth/data/
+
+dataSources: [bh, gps]
+
+dataBase:
+  constants: constants
+  header: [id,uuid,name,status,address,uap_lap,vendor,appearance,company, company_type,lmp_version, \
+  manufacturer,firmware,ibeacon_range,created_at,updated_at,last_seen]

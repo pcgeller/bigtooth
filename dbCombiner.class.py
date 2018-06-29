@@ -6,7 +6,7 @@ import yaml
 #load into postgres
 #result is clean postgres database with bh and gps added together
 
-CONFIG = './bigtooth2/config.yml'
+CONFIG = './'
 
 import os
 dir = os.path.dirname(__file__)
