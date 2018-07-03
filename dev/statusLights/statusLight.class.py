@@ -26,28 +26,3 @@ class statusLight:
 
     def __exit__(self):
         GPIO.cleanup()
-
-lights["blueHydra":21]
-
-light = statusLight("blueHydra", 21)
-light.turnOn()
-light.turnOff()
-blueHydraLED = statusLight("blueHydra", 21)
-gpsLED = statusLight("GPS",26)
-
-blueHydraLED.turnOn()
-gpsLED.turnOn()
-
-connectedGPIO
-
-
-GPIO.setmode(GPIO.BCM)
-GPIO.setwarnings(False)
-
-GPIO.setup(21,GPIO.OUT)
-print("LED on")
-GPIO.output(21,GPIO.HIGH)
-time.sleep(1)
-print("LED off")
-GPIO.output(21,GPIO.LOW)
-GPIO.cleanup()
