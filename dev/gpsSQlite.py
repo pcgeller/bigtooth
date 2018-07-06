@@ -57,13 +57,16 @@ def logGps():
         sys.exit(1)
     #init empty response
     light = sl.statusLight("bigtooth", 26)
+    light2 = sl.statusLight("serialWait", 21)
     response = ''
     try:
         while True:
             while (ser.inWaiting() > 0):
                 response = ser.readline()
                 response = str(response)
+                light2.turnOn()
                 print(response)
+                light2.turnOff()
                 if '$GPRMC' in response:
                     print(response)
                     data = response.split(',')
