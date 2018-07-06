@@ -98,8 +98,6 @@ def logGps():
         ser.close()
 
 if __name__ == '__main__':
-    main(
-        startGps()
-        makeTable()
-        logGps()
-    )
+    startGps()
+    makeTable()
+    logGps()
