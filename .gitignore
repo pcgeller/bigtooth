@@ -4,3 +4,4 @@ deviceSetup.md
 db/
 *.sql
 .db
+dev/network/

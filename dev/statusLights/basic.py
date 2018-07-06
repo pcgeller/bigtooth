@@ -10,4 +10,15 @@ GPIO.output(21,GPIO.HIGH)
 time.sleep(1)
 print("LED off")
 GPIO.output(21,GPIO.LOW)
+
+GPIO.setup(26,GPIO.OUT)
+GPIO.output(26,GPIO.HIGH)
+GPIO.output(21,GPIO.LOW)
+
+
+GPIO.setup(20,GPIO.OUT)
+GPIO.output(20,GPIO.HIGH)
+GPIO.output(21,GPIO.LOW)
+
+
 GPIO.cleanup()
