@@ -32,18 +32,16 @@ def makeTable(schema=("CREATE TABLE gps(n_lat integer,w_long integer,\
         date_time integer,obs_time integer,obs_date int);"),
         DB=gpsDatabase):
     for i in range(0,10): #set number of retrys
-        while True:
-            try:
-                conn = sqlite3.connect(DB)
-                c = conn.cursor()
-                c.execute(schema)
-            except sqlite3.OperationalError as e:
-                print("SQLITE3 ERROR:" + str(e))
-                os.remove(DB)
-                print("Database removed, retrying")
-                continue
-            finally:
-                conn.close()
+        try:
+            conn = sqlite3.connect(DB)
+            c = conn.cursor()
+            c.execute(schema)
+        except sqlite3.OperationalError as e:
+            print("SQLITE3 ERROR:" + str(e))
+            os.remove(DB)
+            print("Database removed, retrying")
+        finally:
+            conn.close()
 
 def logGps():
     try:
