@@ -7,3 +7,7 @@ remoteDatabases:
   - gps/
   - bh/
 localPATH: /home/pcgeller/scratch
+localDb: /opt/data/workbench
+localDatabases:
+  - gps/
+  - bh/

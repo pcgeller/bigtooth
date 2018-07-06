@@ -1,6 +1,24 @@
 import RPi.GPIO as GPIO
 import time
 
+class statusLight:
+    def ___init__(self, name, gpio):
+        self.name = name
+        self.gpio = gpio
+        GPIO.setmode(GPIO.BMC)
+        GPIO.setwarnings(False)
+        GPIO.setup(gpio, GPIO.OUT)
+
+    def turnOn():
+        GPIO.output(self.gpio, GPIO.HIGH)
+        print("LED on GPIO pin %s is turned on.", %s)
+
+    def turnOff():
+        GPIO.output(self.gpio, GPIO.LOW)
+        print("LED on GPIO pin %s is turned off.", %s)
+
+
+
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 
