@@ -8,11 +8,9 @@ import os
 import sys
 import sqlite3
 import subprocess
-#import gps3
-#import dbconnection
-#Setup gpsd
 
-##config
+sys.path.insert(0,'/home/pi/bigtooth/dev/statusLights')
+import statusLightClass as sl
 
 serialPort = "/dev/ttyUSB0"
 gpsDatabase = "/opt/data/gps/current/gps.sqlite"
@@ -33,19 +31,17 @@ def startGps():
 def makeTable(schema=("CREATE TABLE gps(n_lat integer,w_long integer,\
         date_time integer,obs_time integer,obs_date int);"),
         DB=gpsDatabase):
-# End default args
     for i in range(0,10): #set number of retrys
         while True:
             try:
                 conn = sqlite3.connect(DB)
                 c = conn.cursor()
                 c.execute(schema)
-            except:
-                sqlite3.OperationalError as e:
-                    print("SQLITE3 ERROR:" + str(e))
-                    os.remove(DB)
-                    print("Database removed, retrying")
-                    continue
+            except sqlite3.OperationalError as e:
+                print("SQLITE3 ERROR:" + str(e))
+                os.remove(DB)
+                print("Database removed, retrying")
+                continue
             finally:
                 conn.close()
 
@@ -62,6 +58,7 @@ def logGps():
         print("Error opening serial port.")
         sys.exit(1)
     #init empty response
+    light = sl.statusLight("bigtooth", 26)
     response = ''
     try:
         while True:
@@ -87,8 +84,10 @@ def logGps():
                         sql = "insert into gps(n_lat, w_long, date_time, obs_time, obs_date) values (%s, %s, '%s', '%s', '%s');" % (north, west, dateTime, t, date)
                         print(sql)
                         cur.execute(sql)
+                        light.turnOn()
                         print("Rows inserted: %s" % cur.rowcount)
                         conn.commit()
+                        light.turnOff()
                         time.sleep(0.3)
                         response = ""
     except Exception as e:
@@ -97,7 +96,10 @@ def logGps():
         if conn:
             conn.close()
         ser.close()
-''
-startGps()
-makeTable()
-logGps()
+
+if __name__ == '__main__':
+    main(
+        startGps()
+        makeTable()
+        logGps()
+    )
