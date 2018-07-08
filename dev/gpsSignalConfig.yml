@@ -1,4 +1,4 @@
-PATH:
+importPaths:
   - '/home/pi/bigtooth/dev/statusLights'
 lights:
   name: 'gps'

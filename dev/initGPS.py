@@ -1,22 +1,14 @@
 #gps runner
-
 import gps3
-#from subprocess import call
+
 import subprocess
-
-
 #Setup gpsd
 subprocess.call(['sudo', 'gpsd', '/dev/ttyUSB0', '-F', '/var/run/gpsd.sock'])
-
-
 
 #Ensure gpsd is running correction
 while True:
     try:
         print('True')
-
-
-
 
 # Listen on port 2947 (gpsd) of localhost
 session = gps3.gps3("localhost", "2947")

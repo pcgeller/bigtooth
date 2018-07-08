@@ -1,0 +1,7 @@
+[Unit]
+Description=GPS logger for bigtooth.
+Wants=network-online.target
+
+[Service]
+Type=simple
+ExecStart=/opt/bigtooth/dev/gpsLogger.py
