@@ -14,7 +14,7 @@ sys.path.insert(0,'/home/pi/bigtooth/dev/statusLights')
 import statusLightClass as sl
 
 class gpsSignal:
-    def __init__(self):
+    def __init__(self, config):
         try:
             with open(config, 'r') as f:
                 self.config = yaml.load(f)
@@ -45,7 +45,7 @@ class gpsSignal:
             finally:
                 conn.close()
 
-    def logGps():
+    def logGps(self):
         try:
             conn = sqlite3.connect('/opt/data/gps/current/gps.sqlite')
             cur = conn.cursor()
@@ -101,7 +101,7 @@ class gpsSignal:
             ser.close()
 
 if __name__ == '__main__':
-  gpsSignal = gpsSignal("/opt/bigtooth/dev/gpsSignal.config")
-  gpsSignal.startGps()
-  gpsSignal.makeTable()
-  gpsSignal.logGps()
+  signal = gpsSignal("/home/pi/bigtooth/dev/gpsSignalConfig.yml")
+  signal.startGps()
+  signal.makeTable()
+  signal.logGps()
