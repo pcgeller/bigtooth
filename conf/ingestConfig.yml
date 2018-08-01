@@ -1,8 +1,9 @@
-localStorage: /home/pcgeller/bigtooth/data/
-
-dataSources: [bh, gps]
-
-dataBase:
-  constants: constants
-  header: [id,uuid,name,status,address,uap_lap,vendor,appearance,company, company_type,lmp_version, \
-  manufacturer,firmware,ibeacon_range,created_at,updated_at,last_seen]
+localStorage: /home/pcgeller/bigtooth/data/combined
+signals:
+  - name: gpsSignalDatabase
+    description: 'mysql database of GPS signals pulled using gpsd.'
+    path: /home/pcgeller/data/gps/
+  - name: bigtoothSignalDatabase
+    description: 'sqlite database of bigtooth signals pulled using blue hydra'
+    path: /home/pcgeller/data/bh
+    header: [id,uuid,name,status,address,uap_lap,vendor,appearance,company,company_type,lmp_version,manufacturer,firmware,ibeacon_range,created_at,updated_at,last_seen]

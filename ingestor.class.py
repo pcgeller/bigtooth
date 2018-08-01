@@ -13,7 +13,7 @@ class ingestor:
             print("Error opening yaml file: %s ", e)
             #    keys, values = zip(*config.items())
 
-    self.dbs = [db for db in listdir(conf['LOCALDB']) if isfile(join(conf['LOCALDB'], db))]
+    self.dbFiles = [db for db in listdir(conf['LOCALDB']) if isfile(join(conf['LOCALDB'], db))]
 
     def dbQueue(config, remote = TRUE):
         if remote = TRUE:
